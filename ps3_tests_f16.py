@@ -6,21 +6,13 @@ import threading
 import traceback
 import unittest
 import random
-# import imp
-# import importlib
-import ps3 as test
+import uncompyled_test as test
 
-""" It apears that import imp is depreciated. When attempting to run the test file,
-    I get errors that relate to the import process of 'test'. I attempted to change
-    the import to 'importlib' but it did not fix things. As such, I changed it to import
-    ps3 as test and that has solved errors. Tests now give false positives because they
-    compare ps3 to itself. Will need to figure out how to properly import '.pyc' files...
+""" Decompiled the file 'test.pyc' so that it could be imported as a regular file.
+    The class probably originally had the file compiled so students couldn't copy
+    answers from it but I needed my test cases to run. Since this is self education
+    I trust myself not to cheat and look at the contents of the uncompiled file.
 """
-
-# test = importlib.find_loader("test", "test.pyc")
-# test_specs = importlib.util.find_spec("test", "test.pyc")
-# test = importlib.util.module_from_spec(test_specs)
-# test_specs.loader.exec_module(test)
 
 import ps3
 
