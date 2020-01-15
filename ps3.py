@@ -81,8 +81,27 @@ class RectangularRoom(object):
         height: an integer > 0
         dirt_amount: an integer >= 0
         """
-        raise NotImplementedError
-    
+        self.width = width
+        self.height = height
+        self.dirt_amount = dirt_amount
+        self.tiles = {}
+
+        a = 0
+        
+        while (a - 1) < width:
+
+            b = 0
+
+            while (b - 1) < height:
+
+                coordinents = (a, b)
+
+                self.tiles[coordinents] = dirt_amount
+
+                b +=1
+
+            a += 1
+
     def clean_tile_at_position(self, pos, capacity):
         """
         Mark the tile under the position pos as cleaned by capacity amount of dirt.
@@ -96,7 +115,20 @@ class RectangularRoom(object):
         Note: The amount of dirt on each tile should be NON-NEGATIVE.
               If the capacity exceeds the amount of dirt on the tile, mark it as 0.
         """
-        raise NotImplementedError
+
+        coordinents = (int(pos.get_x()), int(pos.get_y()))
+
+        clean_value = self.tiles[coordinents]
+
+        clean_value -= capacity
+
+        if clean_value < 0:
+
+            self.tiles[coordinents] = 0
+
+        else:
+
+            self.tiles[coordinents] = clean_value
 
     def is_tile_cleaned(self, m, n):
         """
@@ -112,13 +144,29 @@ class RectangularRoom(object):
         Note: The tile is considered clean only when the amount of dirt on this
               tile is 0.
         """
-        raise NotImplementedError
+        coordinents = (m, n)
+
+        clean_value = self.tiles[coordinents]
+
+        if clean_value > 0:
+
+            return False
+
+        return True
 
     def get_num_cleaned_tiles(self):
         """
         Returns: an integer; the total number of clean tiles in the room
         """
-        raise NotImplementedError
+        count = 0
+
+        for tile in self.tiles:
+
+            if tile == 0:
+
+                count += 1
+
+        return count
         
     def is_position_in_room(self, pos):
         """
@@ -127,7 +175,13 @@ class RectangularRoom(object):
         pos: a Position object.
         Returns: True if pos is in the room, False otherwise.
         """
-        raise NotImplementedError
+        coordinents = (int(pos.get_x()), int(pos.get_y()))
+
+        if self.tiles[coordinents]:
+
+            return True
+
+        return False
         
     def get_dirt_amount(self, m, n):
         """
@@ -140,14 +194,16 @@ class RectangularRoom(object):
 
         Returns: an integer
         """
-        raise NotImplementedError
+        coordinents = (m, n)
+
+        return self.tiles[coordinents]
         
     def get_num_tiles(self):
         """
         Returns: an integer; the total number of tiles in the room
         """
         # do not change -- implement in subclasses.
-        raise NotImplementedError 
+        raise NotImplementedError
         
     def is_position_valid(self, pos):
         """
@@ -484,4 +540,7 @@ def show_plot_room_shape(title, x_label, y_label):
 
 
 #show_plot_compare_strategies('Time to clean 80% of a 20x20 room, for various numbers of robots','Number of robots','Time / steps')
-#show_plot_room_shape('Time to clean 80% of a 300-tile room for various room shapes','Aspect Ratio', 'Time / steps')
+
+if __name__ == "__main__":
+
+    unittest
