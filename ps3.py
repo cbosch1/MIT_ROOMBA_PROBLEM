@@ -439,7 +439,19 @@ class StandardRobot(Robot):
         rotate once to a random new direction, and stay stationary) and clean the dirt on the tile
         by its given capacity. 
         """
-        raise NotImplementedError
+        pos = self.get_robot_position()
+
+        new_pos = pos.get_new_position(self.get_robot_direction(), self.speed)
+
+        if not self.room.is_position_valid(new_pos):
+
+            self.set_robot_direction(random.uniform(0.0, 360.0))
+
+        else:
+
+            self.set_robot_position(new_pos)
+
+        self.room.clean_tile_at_position(self.get_robot_position(), self.capacity)
 
 # Uncomment this line to see your implementation of StandardRobot in action!
 #test_robot_movement(StandardRobot, EmptyRoom)
