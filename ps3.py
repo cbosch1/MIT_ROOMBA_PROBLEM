@@ -80,12 +80,14 @@ class RectangularRoom(object):
         width: an integer > 0
         height: an integer > 0
         dirt_amount: an integer >= 0
+        tiles: a dictionary > Key: tuple of coordinates, Value: integer representing dirtiness
         """
         self.width = width
         self.height = height
         self.dirt_amount = dirt_amount
         self.tiles = {}
 
+        #initialises tiles based on width, height, and dirt amount
         a = 0
         
         while (a - 1) < width:
@@ -116,12 +118,14 @@ class RectangularRoom(object):
               If the capacity exceeds the amount of dirt on the tile, mark it as 0.
         """
 
+        #casts coordinents into tuple for dictionary retreival
         coordinents = (int(pos.get_x()), int(pos.get_y()))
 
         clean_value = self.tiles[coordinents]
 
         clean_value -= capacity
 
+        #accounts for negative values 
         if clean_value < 0:
 
             self.tiles[coordinents] = 0
@@ -162,7 +166,7 @@ class RectangularRoom(object):
 
         for tile in self.tiles:
 
-            if tile == 0:
+            if self.tiles[tile] == 0:
 
                 count += 1
 
@@ -175,6 +179,7 @@ class RectangularRoom(object):
         pos: a Position object.
         Returns: True if pos is in the room, False otherwise.
         """
+        #casts coordinents into tuple for dictionary retreival
         coordinents = (int(pos.get_x()), int(pos.get_y()))
 
         if self.tiles[coordinents]:
