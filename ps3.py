@@ -87,22 +87,12 @@ class RectangularRoom(object):
         self.dirt_amount = dirt_amount
         self.tiles = {}
 
-        #initialises tiles based on width, height, and dirt amount
-        a = 0
-        
-        while (a - 1) < width:
+        #initialises tiles based on width, height, and dirt amount        
+        for a in range(width):
 
-            b = 0
+            for b in range(height):
 
-            while (b - 1) < height:
-
-                coordinents = (a, b)
-
-                self.tiles[coordinents] = dirt_amount
-
-                b +=1
-
-            a += 1
+                self.tiles[(a, b)] = dirt_amount
 
     def clean_tile_at_position(self, pos, capacity):
         """
@@ -148,9 +138,7 @@ class RectangularRoom(object):
         Note: The tile is considered clean only when the amount of dirt on this
               tile is 0.
         """
-        coordinents = (m, n)
-
-        clean_value = self.tiles[coordinents]
+        clean_value = self.tiles[(m, n)]
 
         if clean_value > 0:
 
@@ -180,9 +168,9 @@ class RectangularRoom(object):
         Returns: True if pos is in the room, False otherwise.
         """
         #casts coordinents into tuple for dictionary retreival
-        coordinents = (int(pos.get_x()), int(pos.get_y()))
+        coordinents = (int(math.floor(pos.get_x())), int(math.floor(pos.get_y())))
 
-        if self.tiles[coordinents]:
+        if coordinents in self.tiles:
 
             return True
 
@@ -199,9 +187,7 @@ class RectangularRoom(object):
 
         Returns: an integer
         """
-        coordinents = (m, n)
-
-        return self.tiles[coordinents]
+        return self.tiles[(m, n)]
         
     def get_num_tiles(self):
         """
