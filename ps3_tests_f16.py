@@ -444,7 +444,7 @@ class ps3_P3(unittest.TestCase):
             robot.update_position_and_clean()
             self.assertTrue(r.is_position_in_room(robot.get_robot_position()),
                             "Robot position %r is not in room!" % (robot.get_robot_position(),))
-        self.assertNotEquals(robot.get_robot_direction(), 90,
+        self.assertNotEqual(robot.get_robot_direction(), 90,
                           "Robot direction should have been changed in update_position_and_clean")
         self.assertTrue(r.get_num_cleaned_tiles() >= 1,
                         "update_position_and_clean should have marked another tile as clean")
@@ -596,5 +596,5 @@ if __name__ == "__main__":
     suite.addTest(unittest.makeSuite(ps3_P2_FR))
     suite.addTest(unittest.makeSuite(ps3_P3))
     suite.addTest(unittest.makeSuite(ps3_P5_Standard))
-    # suite.addTest(unittest.makeSuite(ps3_P5_Faulty))
+    suite.addTest(unittest.makeSuite(ps3_P5_Faulty))
     unittest.TextTestRunner(verbosity=3).run(suite)

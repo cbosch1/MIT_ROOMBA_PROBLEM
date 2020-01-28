@@ -6,6 +6,7 @@
 
 import math
 import random
+import time
 
 import ps3_visualize
 import pylab
@@ -454,8 +455,8 @@ class StandardRobot(Robot):
         self.room.clean_tile_at_position(self.get_robot_position(), self.capacity)
 
 # Uncomment this line to see your implementation of StandardRobot in action!
-#test_robot_movement(StandardRobot, EmptyRoom)
-#test_robot_movement(StandardRobot, FurnishedRoom)
+# test_robot_movement(StandardRobot, EmptyRoom)
+# test_robot_movement(StandardRobot, FurnishedRoom)
 
 # === Problem 4
 class FaultyRobot(Robot):
@@ -495,8 +496,26 @@ class FaultyRobot(Robot):
         StandardRobot at this time-step (checking if it can move to a new position,
         move there if it can, pick a new direction and stay stationary if it can't)
         """
-        raise NotImplementedError
-        
+
+        if self.gets_faulty():
+
+            self.set_robot_direction(random.uniform(0.0, 360.0))
+
+        else:
+            
+            pos = self.get_robot_position()
+
+            new_pos = pos.get_new_position(self.get_robot_direction(), self.speed)
+
+            if self.room.is_position_valid(new_pos):
+
+                self.set_robot_position(new_pos)
+                
+                self.room.clean_tile_at_position(self.get_robot_position(), self.capacity)
+
+            else:
+
+                self.set_robot_direction(random.uniform(0.0, 360.0))        
     
 #test_robot_movement(FaultyRobot, EmptyRoom)
 
@@ -522,7 +541,29 @@ def run_simulation(num_robots, speed, capacity, width, height, dirt_amount, min_
     robot_type: class of robot to be instantiated (e.g. StandardRobot or
                 FaultyRobot)
     """
-    raise NotImplementedError
+    start = 0
+
+    for num in range(num_trials):
+
+        robots = {}
+
+        room = EmptyRoom(width, height, dirt_amount)
+
+        for robo in range(num_robots):
+
+            robot = robot_type(room, speed, capacity)
+
+            robots[robo] = robot
+
+        while (room.get_num_cleaned_tiles() / room.get_num_tiles()) < min_coverage:
+
+            for robo in robots:
+
+                robots[robo].update_position_and_clean()
+
+            start += 1
+
+    return (start / num_trials)
 
 
 # print ('avg time steps: ' + str(run_simulation(1, 1.0, 1, 5, 5, 3, 1.0, 50, StandardRobot)))
